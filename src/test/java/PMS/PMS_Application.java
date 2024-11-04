@@ -26,11 +26,11 @@ import static PMS.Allure_Helper_Class.*;
 public class PMS_Application {
 
     // Enter your Credential of PMS
-    String PMS_UserName = "Mayank.jha@cloudprism.in";
-    String PMS_Password = "mayank.jha";
+    String PMS_UserName = "";
+    String PMS_Password = "";
 
     // Enter Your Name
-    String Name = "Mayank Jha";
+    String Name = "";
     String Exclametry = "!";
 
     @Test(priority = 1)
