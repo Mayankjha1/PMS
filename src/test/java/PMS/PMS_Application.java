@@ -17,15 +17,17 @@ import java.sql.Driver;
 import java.time.Duration;
 import java.util.List;
 
+import static PMS.Allure_Helper_Class.*;
+
 
 public class PMS_Application {
 
     // Enter your Credential of PMS
-    String PMS_UserName = "";
-    String PMS_Password = "";
+    String PMS_UserName = "Mayank.jha@cloudprism.in";
+    String PMS_Password = "mayank.jha";
 
     // Enter Your Name
-    String Name = "";
+    String Name = "Mayank Jha";
     String Exclametry = "!";
 
     @Test(priority = 1)
@@ -55,6 +57,9 @@ public class PMS_Application {
         String URL = driver.getCurrentUrl();
         System.out.println("URL: " + URL);
 
+        // Taking Screenshot for login Page UI
+        captureScreenshot(driver, "Login UI");
+
         // 1. Login with Invalid user id and password
 
         System.out.println("====================================================================\n");
@@ -72,6 +77,9 @@ public class PMS_Application {
 
         String Expected_For_Invalid_Cred = "Username or password is incorrect.";
         String Actual_For_Invalid_Cred = Warning_Message_Store;
+
+        // Taking Screenshot for Toast Message
+        captureScreenshot(driver, Actual_For_Invalid_Cred);
 
         try {
             Assert.assertEquals(Actual_For_Invalid_Cred, Expected_For_Invalid_Cred);
@@ -106,6 +114,9 @@ public class PMS_Application {
 
         String Expected_For_Invalid_Password = "Username or password is incorrect.";
         String Actual_For_Invalid_Password = Warning_Message_for_Wrong_password_Store;
+
+        // Taking Screenshot for Toast Message
+        captureScreenshot(driver, Actual_For_Invalid_Password);
 
         try {
             Assert.assertEquals(Actual_For_Invalid_Password, Expected_For_Invalid_Password);
@@ -142,6 +153,9 @@ public class PMS_Application {
         String Expected_For_Invalid_userId = "Username or password is incorrect.";
         String Actual_For_Invalid_userId = Warning_Message_for_Wrong_userId_Store;
 
+        // Taking Screenshot for Toast Message
+        captureScreenshot(driver, Actual_For_Invalid_userId);
+
         try {
             Assert.assertEquals(Actual_For_Invalid_userId, Expected_For_Invalid_userId);
             System.out.println("Test Passed! ");
@@ -167,7 +181,7 @@ public class PMS_Application {
 
         WebElement Userid = driver.findElement(By.name("email"));
         Userid.sendKeys("USER@NULL");
-        WebElement Password =driver.findElement(By.name("password"));
+        WebElement Password = driver.findElement(By.name("password"));
         Password.sendKeys("NULLNULL");
         driver.findElement(By.xpath("//button[@type=\"submit\"]")).click();
 
@@ -183,6 +197,9 @@ public class PMS_Application {
 
         String Expected_For_Null = "Username or password is incorrect.";
         String Actual_For_Null = Warning_Message_for_Null;
+
+        // Taking Screenshot for Toast Message
+        captureScreenshot(driver, Actual_For_Null);
 
         try {
             Assert.assertEquals(Actual_For_Null, Expected_For_Null);
@@ -217,7 +234,7 @@ public class PMS_Application {
         String Warning_Message_for_Correct_cred_Store = Waring_Message_for_Correct_cred.getText();
 
         //String Expected_For_Correct_cred = "Welcome Mayank Jha!";
-        String Expected_For_Correct_cred ="Welcome " + Name + Exclametry;
+        String Expected_For_Correct_cred = "Welcome " + Name + Exclametry;
         String Actual_For_Correct_cred = Warning_Message_for_Correct_cred_Store;
 
 //        // Debug this
@@ -225,6 +242,9 @@ public class PMS_Application {
 //
 //        System.out.println("Expected: " + Expected_For_Correct_cred + " | Length: " + Expected_For_Correct_cred.length());
 //        System.out.println("Actual: " + Actual_For_Correct_cred + " | Length: " + Actual_For_Correct_cred.length());
+
+        // Taking Screenshot for Toast Message
+        captureScreenshot(driver, Actual_For_Correct_cred);
 
         try {
             Assert.assertEquals(Actual_For_Correct_cred, Expected_For_Correct_cred);
@@ -241,7 +261,7 @@ public class PMS_Application {
     }
 
     @Test(priority = 2)
-    public void Dashboard(){
+    public void Dashboard() {
 
         // To Disable Notification
         ChromeOptions options = new ChromeOptions();
@@ -277,7 +297,7 @@ public class PMS_Application {
         String Warning_Message_for_Correct_cred_Store = Waring_Message_for_Correct_cred.getText();
 
         //String Expected_For_Correct_cred = "Welcome Mayank Jha!";
-        String Expected_For_Correct_cred ="Welcome " + Name + Exclametry;
+        String Expected_For_Correct_cred = "Welcome " + Name + Exclametry;
         String Actual_For_Correct_cred = Warning_Message_for_Correct_cred_Store;
 
 //        // Debug this
@@ -285,6 +305,9 @@ public class PMS_Application {
 //
 //        System.out.println("Expected: " + Expected_For_Correct_cred + " | Length: " + Expected_For_Correct_cred.length());
 //        System.out.println("Actual: " + Actual_For_Correct_cred + " | Length: " + Actual_For_Correct_cred.length());
+
+        // Taking Screenshot
+        captureScreenshot(driver, Actual_For_Correct_cred);
 
         try {
             Assert.assertEquals(Actual_For_Correct_cred, Expected_For_Correct_cred);
@@ -367,7 +390,7 @@ public class PMS_Application {
         String Warning_Message_for_Correct_cred_Store = Waring_Message_for_Correct_cred.getText();
 
         //String Expected_For_Correct_cred = "Welcome Mayank Jha!";
-        String Expected_For_Correct_cred ="Welcome " + Name + Exclametry;
+        String Expected_For_Correct_cred = "Welcome " + Name + Exclametry;
         String Actual_For_Correct_cred = Warning_Message_for_Correct_cred_Store;
 
 //        // Debug this
@@ -390,11 +413,11 @@ public class PMS_Application {
         System.out.println("====================================================================\n");
 
         // Click on Daily Status Menu
-        WebElement Daily_Status_Menu =  wait7.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@class=\"nav-link nav-edit_user\"]")));
+        WebElement Daily_Status_Menu = wait7.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@class=\"nav-link nav-edit_user\"]")));
         Daily_Status_Menu.click();
 
         // Now Clicking on Add New
-        WebElement Add_New =  wait7.until(ExpectedConditions.elementToBeClickable(By.xpath("(//*[text()='Add New'])[2]")));
+        WebElement Add_New = wait7.until(ExpectedConditions.elementToBeClickable(By.xpath("(//*[text()='Add New'])[2]")));
         Add_New.click();
 
         //Verify the Daily Status heading
@@ -404,8 +427,11 @@ public class PMS_Application {
         String Daily_Staus_Heading_Store = Daily_Staus_Heading.getText();
 
         //String Expected_For_Correct_cred = "Welcome Mayank Jha!";
-        String Expected_For_Daily_Staus ="Daily Status";
+        String Expected_For_Daily_Staus = "Daily Status";
         String Actual_For_Daily_Staus = Daily_Staus_Heading_Store;
+
+        // Taking Screenshot
+        captureScreenshot(driver, Actual_For_Daily_Staus);
 
         // Error Handling
         try {
@@ -429,12 +455,12 @@ public class PMS_Application {
         //Selecting the Value
         List<WebElement> Projects = driver.findElements(By.xpath("//select[@name=\"project_id\"]/option"));
         //System.out.println(Projects.size()-1 + " Projects");
-       for (int i = 1; i<Projects.size(); i++){
-           Projects.get(17).click();
-           Action_Class.sendKeys(Keys.ENTER).build().perform();
-       }
+        for (int i = 1; i < Projects.size(); i++) {
+            Projects.get(17).click();
+            Action_Class.sendKeys(Keys.ENTER).build().perform();
+        }
 
-       // Now Entering the Task Title
+        // Now Entering the Task Title
         String Title = "New Project + Testing this Component + Automation of this Page";
 
         WebElement Task_Title = wait7.until(ExpectedConditions.elementToBeClickable(By.id("task_id")));
@@ -463,6 +489,9 @@ public class PMS_Application {
         WebElement End_Date = wait7.until(ExpectedConditions.elementToBeClickable(By.name("end_time")));
         Action_Class.moveToElement(End_Date).click().sendKeys("8:00PM").build().perform();
 
+        // Taking Screenshot
+        captureScreenshot(driver, "Data");
+
         // Now Save the Daily Status ... Clicking on Save Button
         WebElement Save_btn = wait7.until(ExpectedConditions.elementToBeClickable(By.id("saveButton")));
         Action_Class.moveToElement(Save_btn).click().build().perform();
@@ -474,8 +503,11 @@ public class PMS_Application {
         String Daily_Status_Toast_Message_Store = Daily_Status_Toast_Message.getText();
 
 
-        String Expected_For_Daily_Status_Toast_Message ="Data successfully saved.";
+        String Expected_For_Daily_Status_Toast_Message = "Data successfully saved.";
         String Actual_For_Daily_Status_Toast_Message = Daily_Status_Toast_Message_Store;
+
+        // Taking Screenshot
+        captureScreenshot(driver, Actual_For_Daily_Status_Toast_Message);
 
         // Error Handling
         try {
@@ -491,10 +523,16 @@ public class PMS_Application {
         System.out.println("====================================================================\n");
         System.out.println("3. Checking Save Button is disabled after save");
         System.out.println("====================================================================\n");
-        if(Save_btn.isEnabled()){
+        if (Save_btn.isEnabled()) {
+
+            // Taking Screenshot
+            captureScreenshot(driver, "button is Enabled");
+
             System.out.println("Test Failed! ");
             System.out.println("Save Button is Enabled");
-        }else {
+        } else {
+            // Taking Screenshot
+            captureScreenshot(driver, "Save button is Disabled");
             System.out.println("Test Passed! ");
             System.out.println("Save button is Disabled");
         }
@@ -506,7 +544,7 @@ public class PMS_Application {
         System.out.println("====================================================================\n");
 
         // Again click on Add New
-        Add_New =  wait7.until(ExpectedConditions.elementToBeClickable(By.xpath("(//*[text()='Add New'])[2]")));
+        Add_New = wait7.until(ExpectedConditions.elementToBeClickable(By.xpath("(//*[text()='Add New'])[2]")));
         Action_Class.moveToElement(Add_New).click().build().perform();
 
         //Again Click on project Name Section
@@ -516,7 +554,7 @@ public class PMS_Application {
         //Selecting the Project
         List<WebElement> Selecting_Projects = driver.findElements(By.xpath("//select[@name=\"project_id\"]/option"));
         //System.out.println(Projects.size()-1 + " Projects");
-        for (int i = 1; i<Selecting_Projects.size(); i++){
+        for (int i = 1; i < Selecting_Projects.size(); i++) {
             Selecting_Projects.get(17).click();
             Action_Class.sendKeys(Keys.ENTER).build().perform();
         }
@@ -526,6 +564,9 @@ public class PMS_Application {
         // Now Entering the Description of the Project
         WebElement Description_Writing = wait7.until(ExpectedConditions.elementToBeClickable(By.id("comment")));
         Action_Class.moveToElement(Description_Writing).click().sendKeys(Description_Text).build().perform();
+
+        // Taking Screenshot
+        captureScreenshot(driver, "Fileds are blank");
 
         // Now again we have to click on Save button
         Save_btn = wait7.until(ExpectedConditions.elementToBeClickable(By.id("saveButton")));
@@ -538,8 +579,11 @@ public class PMS_Application {
         String Warning_Toast_Message_Store = Warning_Toast_Message.getText();
 
 
-        String Expected_For_Daily_Status_Warning_Toast_Message ="Please fill all the fields. All fields are required.";
+        String Expected_For_Daily_Status_Warning_Toast_Message = "Please fill all the fields. All fields are required.";
         String Actual_For_Daily_Status_Warning_Toast_Message = Warning_Toast_Message_Store;
+
+        // Taking Screenshot
+        captureScreenshot(driver, Actual_For_Daily_Status_Warning_Toast_Message);
 
         // Error Handling
         try {
@@ -561,7 +605,7 @@ public class PMS_Application {
         //Again Selecting the Value
         List<WebElement> Projects2 = driver.findElements(By.xpath("//select[@name=\"project_id\"]/option"));
         //System.out.println(Projects.size()-1 + " Projects");
-        for (int i = 1; i<Projects2.size(); i++){
+        for (int i = 1; i < Projects2.size(); i++) {
             Projects2.get(17).click();
             Action_Class.sendKeys(Keys.ENTER).build().perform();
         }
@@ -602,6 +646,9 @@ public class PMS_Application {
         // Wait for 7 second
         Thread.sleep(7000);
 
+        // Taking Screenshot
+        captureScreenshot(driver, "Back Date");
+
         // Now Save the Daily Status ... Clicking on Save Button
         Save_btn = wait7.until(ExpectedConditions.elementToBeClickable(By.id("saveButton")));
         Action_Class.moveToElement(Save_btn).click().build().perform();
@@ -612,8 +659,11 @@ public class PMS_Application {
         String Daily_Status_Toast_Message_for_back_date_Store = Daily_Status_Toast_Message_for_back_date.getText();
 
 
-        String Expected_For_Daily_Status_Toast_Message_for_back_date ="Data successfully saved.";
+        String Expected_For_Daily_Status_Toast_Message_for_back_date = "Data successfully saved.";
         String Actual_For_Daily_Status_Toast_Message_for_back_date = Daily_Status_Toast_Message_for_back_date_Store;
+
+        // Taking Screenshot
+        captureScreenshot(driver, Actual_For_Daily_Status_Toast_Message_for_back_date);
 
         // Error Handling
         try {
@@ -638,9 +688,11 @@ public class PMS_Application {
         String List_Heading_Store = List_Heading.getText();
 
 
-        String Expected_List_Heading ="Work Report";
+        String Expected_List_Heading = "Work Report";
         String Actual_List_Heading = List_Heading_Store;
 
+        // Taking Screenshot
+        captureScreenshot(driver, Actual_List_Heading);
         // Error Handling
         try {
             Assert.assertEquals(Actual_List_Heading, Expected_List_Heading);
@@ -657,8 +709,8 @@ public class PMS_Application {
         // Selecting the user
         //Again Selecting the Value
         List<WebElement> User_Selection = driver.findElements(By.xpath("//select[@name=\"user\"]/option"));
-      //  System.out.println(User_Selection.size());
-        for (int i = 0; i<User_Selection.size(); i++){
+        //  System.out.println(User_Selection.size());
+        for (int i = 0; i < User_Selection.size(); i++) {
             User_Selection.get(0).click();
             WebElement User_option = User_Selection.get(i);
             User_option.click(); // Selects the option
@@ -688,7 +740,8 @@ public class PMS_Application {
                 .sendKeys("10")
                 .sendKeys("2024")
                 .build().perform();
-
+        // Taking Screenshot
+        captureScreenshot(driver, "Daily Status Lists");
         // Click on Show
         Action_Class.sendKeys(Keys.TAB).sendKeys(Keys.TAB).sendKeys(Keys.ENTER).build().perform();
 
@@ -697,14 +750,14 @@ public class PMS_Application {
         Action_Class.moveToElement(Entries).click().build().perform();
 
         List<WebElement> Sorting = driver.findElements(By.xpath("//select[@name=\"list_length\"]/option"));
-          System.out.println(Sorting.size());
-        for (int i = 0; i<Sorting.size(); i++){
+        System.out.println(Sorting.size());
+        for (int i = 0; i < Sorting.size(); i++) {
             Sorting.get(3).click();
             WebElement User_option = Sorting.get(i);
             User_option.click(); // Selects the option
             //Action_Class.moveToElement(User_option).click().build().perform();
-           // String selectedText = User_option.getText(); // Retrieves the displayed text of the selected option
-           // System.out.println("Selected Text: " + Sorting.size() + ". " + selectedText);
+            // String selectedText = User_option.getText(); // Retrieves the displayed text of the selected option
+            // System.out.println("Selected Text: " + Sorting.size() + ". " + selectedText);
             //Action_Class.sendKeys(Keys.ENTER).build().perform();
         }
 
@@ -718,167 +771,196 @@ public class PMS_Application {
         WebElement Search = wait7.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@type=\"search\"]")));
         Action_Class.moveToElement(Search).click().sendKeys(project_Name).build().perform();
 
+        // Taking Screenshot
+        captureScreenshot(driver, "project --> " + project_Name);
+
         // Print all the Table Data
         List<WebElement> Table_Data = driver.findElements(By.xpath("//table/tbody/tr"));
         for (WebElement element : Table_Data) {
             System.out.println(element.getText());
+            // Taking Screenshot
+            captureScreenshot(driver, "Inside Table");
         }
 
-  //       If the result is not found handle the situation
+        //       If the result is not found handle the situation
         try {
             // Check if the element is present and displayed
-            if(driver.findElement(By.xpath("//*[text()='No matching records found']")).isDisplayed()) {
+            if (driver.findElement(By.xpath("//*[text()='No matching records found']")).isDisplayed()) {
                 System.out.println("====================================================================\n");
                 System.out.println("No Data Found on Table");
+
+                // Taking Screenshot
+                captureScreenshot(driver, "No Data Found on Table");
+
                 // Quit the driver if no data is found
                 driver.quit();
                 return;
             }
         } catch (NoSuchElementException e) {
             // Handle the case when the element is not found
+            // Taking Screenshot
+            captureScreenshot(driver, "Data is present in the table");
             System.out.println("Data is present in the table.");
         }
 
 
+        //7. Checking with Back Date while Creating New Daily Status
+        System.out.println("====================================================================\n");
+        System.out.println("7. Checking Edit Button !!! ");
+        System.out.println("====================================================================\n");
+        //Checking Edit
+        WebElement Edit_button = wait7.until(ExpectedConditions.elementToBeClickable(By.xpath("(//a[@class=\"dropdown-item\"])[3]")));
+        Action_Class.moveToElement(Edit_button).click().build().perform();
 
-            //7. Checking with Back Date while Creating New Daily Status
-            System.out.println("====================================================================\n");
-            System.out.println("7. Checking Edit Button !!! ");
-            System.out.println("====================================================================\n");
-            //Checking Edit
-            WebElement Edit_button = wait7.until(ExpectedConditions.elementToBeClickable(By.xpath("(//a[@class=\"dropdown-item\"])[3]")));
-            Action_Class.moveToElement(Edit_button).click().build().perform();
+        //click on Description >> Select All >> Delete
+        WebElement Description_Click = wait7.until(ExpectedConditions.elementToBeClickable(By.name("comment")));
+        Description_Click.clear();
+        Action_Class.moveToElement(Description_Click).click().sendKeys("Updated Texts").build().perform();
 
-            //click on Description >> Select All >> Delete
-            WebElement Description_Click = wait7.until(ExpectedConditions.elementToBeClickable(By.name("comment")));
-            Description_Click.clear();
-            Action_Class.moveToElement(Description_Click).click().sendKeys("Updated Texts").build().perform();
+        // Taking Screenshot
+        captureScreenshot(driver, "Data");
 
-            // Click on Save and get Toast Message
-            Save_btn = wait7.until(ExpectedConditions.elementToBeClickable(By.id("saveButton")));
-            Action_Class.moveToElement(Save_btn).click().build().perform();
+        // Click on Save and get Toast Message
+        Save_btn = wait7.until(ExpectedConditions.elementToBeClickable(By.id("saveButton")));
+        Action_Class.moveToElement(Save_btn).click().build().perform();
 
-            // Success Toast Message
+        // Success Toast Message
 
-            // Actual and Expected Result
-            WebElement Save_Toast_Message = wait7.until(ExpectedConditions.elementToBeClickable(By.id("swal2-title")));
-            String Save_Toast_Message_Store = Save_Toast_Message.getText();
-
-
-            String Expected_For_Save_Toast_Message = "Data successfully saved.";
-            String Actual_For_Save_Toast_Message = Save_Toast_Message_Store;
-
-            // Error Handling
-            try {
-                Assert.assertEquals(Actual_For_Save_Toast_Message, Expected_For_Save_Toast_Message);
-                System.out.println("Test Passed! ");
-                System.out.println("Toast Message : " + Actual_For_Save_Toast_Message);
-            } catch (AssertionError e) {
-                System.out.println("Test Failed! \n Expected: " + Expected_For_Save_Toast_Message + "\n But got: " + Actual_For_Daily_Status_Toast_Message);
-            }
-
-            //8. Checking with Back Date while Creating New Daily Status
-            System.out.println("====================================================================\n");
-            System.out.println("8. Checking Delete Button !!! ");
-            System.out.println("====================================================================\n");
-
-            // Now Selecting the User
-            Users = wait7.until(ExpectedConditions.elementToBeClickable(By.id("user")));
-            Action_Class.moveToElement(Users).click().build().perform();
-
-            // Selecting the user
-            //Again Selecting the Value
-            User_Selection = driver.findElements(By.xpath("//select[@name=\"user\"]/option"));
-            //  System.out.println(User_Selection.size());
-            for (int i = 0; i < User_Selection.size(); i++) {
-                User_Selection.get(0).click();
-                WebElement User_option = User_Selection.get(i);
-                User_option.click(); // Selects the option
-                //Action_Class.moveToElement(User_option).click().build().perform();
-                String selectedText = User_option.getText(); // Retrieves the displayed text of the selected option
-               // System.out.println("Selected Text: " + User_Selection.size() + ". " + selectedText);
-                Action_Class.sendKeys(Keys.ENTER).build().perform();
-            }
-
-            // Date From
-
-            Date_From = wait7.until(ExpectedConditions.elementToBeClickable(By.name("date_from")));
-            //Action_Class.moveToElement(Date_From).click().sendKeys("01/10/2024").build().perform();
-
-            Action_Class.moveToElement(Date_From).click()
-                    .sendKeys(Keys.HOME).sendKeys(Keys.ARROW_LEFT).sendKeys(Keys.ARROW_LEFT)// Move cursor to the start
-                    .sendKeys("01")
-                    .sendKeys("10")
-                    .sendKeys("2024")
-                    .build().perform();
-
-            // Date To
-            Date_To = wait7.until(ExpectedConditions.elementToBeClickable(By.name("date_from")));
-            Action_Class.moveToElement(Date_To).click()
-                    .sendKeys(Keys.TAB).sendKeys(Keys.TAB)// Move cursor to the start
-                    .sendKeys("28")
-                    .sendKeys("10")
-                    .sendKeys("2024")
-                    .build().perform();
-
-            // Click on Show
-            Action_Class.sendKeys(Keys.TAB).sendKeys(Keys.TAB).sendKeys(Keys.ENTER).build().perform();
-
-            // Now Change Shorting to 100 to print all the Table Data
-            Entries = wait7.until(ExpectedConditions.elementToBeClickable(By.name("list_length")));
-            Action_Class.moveToElement(Entries).click().build().perform();
-
-            Sorting = driver.findElements(By.xpath("//select[@name=\"list_length\"]/option"));
-            //System.out.println(Sorting.size());
-            for (int i = 0; i < Sorting.size(); i++) {
-                Sorting.get(3).click();
-                WebElement User_option = Sorting.get(i);
-                User_option.click(); // Selects the option
-
-            }
-
-            // Click on a random position on the page, e.g., x=100, y=100
-            // Actions actions = new Actions(driver);
-            actions.moveByOffset(100, 100).click().perform();
-
-            // Wait for 7 Second
-            Thread.sleep(7000);
-
-            // Click on Search
-
-            Search = wait7.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@type=\"search\"]")));
-            Search.clear();
-            Action_Class.moveToElement(Search).click().sendKeys("test").build().perform();
-
-            // Click on Delete
-            WebElement delete_button = wait7.until(ExpectedConditions.elementToBeClickable(By.xpath("(//*[text()='Delete'])[1]")));
-            Action_Class.moveToElement(delete_button).click().build().perform();
-
-            // Actual and Expected Result
-            WebElement Delete_Toast_Message = wait7.until(ExpectedConditions.elementToBeClickable(By.id("swal2-title")));
-            String Delete_Toast_Message_Store = Delete_Toast_Message.getText();
+        // Actual and Expected Result
+        WebElement Save_Toast_Message = wait7.until(ExpectedConditions.elementToBeClickable(By.id("swal2-title")));
+        String Save_Toast_Message_Store = Save_Toast_Message.getText();
 
 
-            String Expected_For_Delete_Toast_Message = "Data successfully deleted";
-            String Actual_For_Delete_Toast_Message = Delete_Toast_Message_Store;
+        String Expected_For_Save_Toast_Message = "Data successfully saved.";
+        String Actual_For_Save_Toast_Message = Save_Toast_Message_Store;
 
-            // Error Handling
-            try {
-                Assert.assertEquals(Actual_For_Delete_Toast_Message, Expected_For_Delete_Toast_Message);
-                System.out.println("Test Passed! ");
-                System.out.println("Toast Message : " + Actual_For_Delete_Toast_Message);
-            } catch (AssertionError e) {
-                System.out.println("Test Failed! \n Expected: " + Expected_For_Delete_Toast_Message + "\n But got: " + Actual_For_Delete_Toast_Message);
-            }
+        // Taking Screenshot
+        captureScreenshot(driver, Actual_For_Save_Toast_Message);
+
+        // Error Handling
+        try {
+            Assert.assertEquals(Actual_For_Save_Toast_Message, Expected_For_Save_Toast_Message);
+            System.out.println("Test Passed! ");
+            System.out.println("Toast Message : " + Actual_For_Save_Toast_Message);
+        } catch (AssertionError e) {
+            System.out.println("Test Failed! \n Expected: " + Expected_For_Save_Toast_Message + "\n But got: " + Actual_For_Daily_Status_Toast_Message);
+        }
+
+        //8. Checking with Back Date while Creating New Daily Status
+        System.out.println("====================================================================\n");
+        System.out.println("8. Checking Delete Button !!! ");
+        System.out.println("====================================================================\n");
+
+        // Now Selecting the User
+        Users = wait7.until(ExpectedConditions.elementToBeClickable(By.id("user")));
+        Action_Class.moveToElement(Users).click().build().perform();
+
+        // Selecting the user
+        //Again Selecting the Value
+        User_Selection = driver.findElements(By.xpath("//select[@name=\"user\"]/option"));
+        //  System.out.println(User_Selection.size());
+        for (int i = 0; i < User_Selection.size(); i++) {
+            User_Selection.get(0).click();
+            WebElement User_option = User_Selection.get(i);
+            User_option.click(); // Selects the option
+            //Action_Class.moveToElement(User_option).click().build().perform();
+            String selectedText = User_option.getText(); // Retrieves the displayed text of the selected option
+            // System.out.println("Selected Text: " + User_Selection.size() + ". " + selectedText);
+            Action_Class.sendKeys(Keys.ENTER).build().perform();
+        }
+
+        // Date From
+
+        Date_From = wait7.until(ExpectedConditions.elementToBeClickable(By.name("date_from")));
+        //Action_Class.moveToElement(Date_From).click().sendKeys("01/10/2024").build().perform();
+
+        Action_Class.moveToElement(Date_From).click()
+                .sendKeys(Keys.HOME).sendKeys(Keys.ARROW_LEFT).sendKeys(Keys.ARROW_LEFT)// Move cursor to the start
+                .sendKeys("01")
+                .sendKeys("10")
+                .sendKeys("2024")
+                .build().perform();
+
+        // Date To
+        Date_To = wait7.until(ExpectedConditions.elementToBeClickable(By.name("date_from")));
+        Action_Class.moveToElement(Date_To).click()
+                .sendKeys(Keys.TAB).sendKeys(Keys.TAB)// Move cursor to the start
+                .sendKeys("28")
+                .sendKeys("10")
+                .sendKeys("2024")
+                .build().perform();
+
+        // Taking Screenshot
+        captureScreenshot(driver, "UserName and Dates");
+
+        // Click on Show
+        Action_Class.sendKeys(Keys.TAB).sendKeys(Keys.TAB).sendKeys(Keys.ENTER).build().perform();
+
+        // Now Change Shorting to 100 to print all the Table Data
+        Entries = wait7.until(ExpectedConditions.elementToBeClickable(By.name("list_length")));
+        Action_Class.moveToElement(Entries).click().build().perform();
+
+        Sorting = driver.findElements(By.xpath("//select[@name=\"list_length\"]/option"));
+        //System.out.println(Sorting.size());
+        for (int i = 0; i < Sorting.size(); i++) {
+            Sorting.get(3).click();
+            WebElement User_option = Sorting.get(i);
+            User_option.click(); // Selects the option
+
+        }
+
+        // Click on a random position on the page, e.g., x=100, y=100
+        // Actions actions = new Actions(driver);
+        actions.moveByOffset(100, 100).click().perform();
+
+        // Wait for 7 Second
+        Thread.sleep(7000);
+        // Taking Screenshot
+        captureScreenshot(driver, "Data");
+
+        // Click on Search
+
+        Search = wait7.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@type=\"search\"]")));
+        Search.clear();
+
+        // Taking Screenshot
+        captureScreenshot(driver, "Searched Item");
+
+        Action_Class.moveToElement(Search).click().sendKeys("test").build().perform();
+
+        // Taking Screenshot
+        captureScreenshot(driver, "Cleared");
+
+        // Click on Delete
+        WebElement delete_button = wait7.until(ExpectedConditions.elementToBeClickable(By.xpath("(//*[text()='Delete'])[1]")));
+        Action_Class.moveToElement(delete_button).click().build().perform();
+
+        // Actual and Expected Result
+        WebElement Delete_Toast_Message = wait7.until(ExpectedConditions.elementToBeClickable(By.id("swal2-title")));
+        String Delete_Toast_Message_Store = Delete_Toast_Message.getText();
 
 
-            //Quit Driver
-            driver.quit();
+        String Expected_For_Delete_Toast_Message = "Data successfully deleted";
+        String Actual_For_Delete_Toast_Message = Delete_Toast_Message_Store;
 
+        // Taking Screenshot
+        captureScreenshot(driver, Actual_For_Delete_Toast_Message);
+
+        // Error Handling
+        try {
+            Assert.assertEquals(Actual_For_Delete_Toast_Message, Expected_For_Delete_Toast_Message);
+            System.out.println("Test Passed! ");
+            System.out.println("Toast Message : " + Actual_For_Delete_Toast_Message);
+        } catch (AssertionError e) {
+            System.out.println("Test Failed! \n Expected: " + Expected_For_Delete_Toast_Message + "\n But got: " + Actual_For_Delete_Toast_Message);
+        }
+
+
+        //Quit Driver
+        driver.quit();
 
 
     }
-
 
 
 }
