@@ -1,6 +1,7 @@
 package PMS;
 
 import net.bytebuddy.asm.Advice;
+import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -12,6 +13,8 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import javax.swing.*;
+import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.sql.Driver;
 import java.time.Duration;
@@ -32,6 +35,11 @@ public class PMS_Application {
 
     @Test(priority = 1)
     public void Login_Test() throws InterruptedException {
+
+        // This is for Print Outputs`
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        PrintStream originalOut = System.out;
+        System.setOut(new PrintStream(baos));
 
         // To Disable Notification
         ChromeOptions options = new ChromeOptions();
@@ -255,6 +263,13 @@ public class PMS_Application {
         }
         System.out.println("====================================================================\n");
 
+        // Allure Report Console Logs Attachment
+        Allure_Helper_Class.attachConsoleLogs(driver, "ConsoleLogs");
+
+        // This is for Console output in allure reports
+        System.setOut(originalOut);
+        String consoleOutput = baos.toString(StandardCharsets.UTF_8);
+        Allure_Helper_Class.attachConsoleOutput(consoleOutput, "ConsoleOutput");
 
         driver.quit();
 
@@ -262,6 +277,11 @@ public class PMS_Application {
 
     @Test(priority = 2)
     public void Dashboard() {
+
+        // This is for Print Outputs
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        PrintStream originalOut = System.out;
+        System.setOut(new PrintStream(baos));
 
         // To Disable Notification
         ChromeOptions options = new ChromeOptions();
@@ -349,6 +369,14 @@ public class PMS_Application {
         }
         System.out.println("====================================================================\n");
 
+        // Allure Report Console Logs Attachment
+        Allure_Helper_Class.attachConsoleLogs(driver, "ConsoleLogs");
+
+        // This is for Console output in allure reports
+        System.setOut(originalOut);
+        String consoleOutput = baos.toString(StandardCharsets.UTF_8);
+        Allure_Helper_Class.attachConsoleOutput(consoleOutput, "ConsoleOutput");
+
         // Quit the browser
         driver.quit();
 
@@ -356,6 +384,12 @@ public class PMS_Application {
 
     @Test(priority = 3)
     public void Daily_Status() throws InterruptedException {
+
+        // This is for Print Outputs`
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        PrintStream originalOut = System.out;
+        System.setOut(new PrintStream(baos));
+
         // To Disable Notification
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--disable-notifications");
@@ -955,12 +989,20 @@ public class PMS_Application {
             System.out.println("Test Failed! \n Expected: " + Expected_For_Delete_Toast_Message + "\n But got: " + Actual_For_Delete_Toast_Message);
         }
 
+        // Allure Report Console Logs Attachment
+        Allure_Helper_Class.attachConsoleLogs(driver, "ConsoleLogs");
+
+        // This is for Console output in allure reports
+        System.setOut(originalOut);
+        String consoleOutput = baos.toString(StandardCharsets.UTF_8);
+        Allure_Helper_Class.attachConsoleOutput(consoleOutput, "ConsoleOutput");
 
         //Quit Driver
         driver.quit();
 
 
     }
+
 
 
 }
