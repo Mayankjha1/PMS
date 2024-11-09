@@ -583,10 +583,12 @@ public class PMS_Application {
         // Again click on Add New
         Thread.sleep(2000);
         Add_New = wait7.until(ExpectedConditions.elementToBeClickable(By.xpath("(//*[text()='Add New'])[2]")));
+        //Add_New.click();
         Action_Class.moveToElement(Add_New).click().build().perform();
 
         //Again Click on project Name Section
         Click_On_Project_Name = wait7.until(ExpectedConditions.elementToBeClickable(By.xpath("//select[@name=\"project_id\"]")));
+        Click_On_Project_Name.click();
         Action_Class.moveToElement(Click_On_Project_Name).click().build().perform();
 
         //Selecting the Project
