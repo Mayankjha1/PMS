@@ -451,6 +451,7 @@ public class PMS_Application {
         Daily_Status_Menu.click();
 
         // Now Clicking on Add New
+        Thread.sleep(2000);
         WebElement Add_New = wait7.until(ExpectedConditions.elementToBeClickable(By.xpath("(//*[text()='Add New'])[2]")));
         Add_New.click();
 
@@ -578,6 +579,7 @@ public class PMS_Application {
         System.out.println("====================================================================\n");
 
         // Again click on Add New
+        Thread.sleep(2000);
         Add_New = wait7.until(ExpectedConditions.elementToBeClickable(By.xpath("(//*[text()='Add New'])[2]")));
         Action_Class.moveToElement(Add_New).click().build().perform();
 
@@ -1003,6 +1005,78 @@ public class PMS_Application {
 
     }
 
+    @Test(priority = 4)
+    public void TimeSheet() throws InterruptedException {
 
+        // To Disable Notification
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--disable-notifications");
+
+        WebDriver driver = new ChromeDriver(options);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+        WebDriverWait wait7 = new WebDriverWait(driver, Duration.ofSeconds(7));
+        // Sandbox
+
+        // DEV Sandbox
+        // URL
+        System.out.println("\n");
+        driver.get("https://test.pms.cloudprism.in/login.php");
+
+        //Wait for the user id to appear
+        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//input[@type=\"email\"]")));
+
+        // Maximize Window
+        driver.manage().window().maximize();
+
+        // Printing the Url
+        String URL = driver.getCurrentUrl();
+        System.out.println("URL: " + URL);
+
+        driver.findElement(By.name("email")).sendKeys(PMS_UserName);
+        driver.findElement(By.name("password")).sendKeys(PMS_Password);
+        driver.findElement(By.xpath("//button[@type=\"submit\"]")).click();
+
+        // Actual and Expected Result
+
+        WebElement Waring_Message_for_Correct_cred = wait7.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@class='card-body']")));
+        String Warning_Message_for_Correct_cred_Store = Waring_Message_for_Correct_cred.getText();
+
+        //String Expected_For_Correct_cred = "Welcome Mayank Jha!";
+        String Expected_For_Correct_cred = "Welcome " + Name + Exclametry;
+        String Actual_For_Correct_cred = Warning_Message_for_Correct_cred_Store;
+
+        try {
+            Assert.assertEquals(Actual_For_Correct_cred, Expected_For_Correct_cred);
+            System.out.println("Test Passed! ");
+            System.out.println("Welcome Message : " + Actual_For_Correct_cred);
+        } catch (AssertionError e) {
+            System.out.println("Test Failed! \n Expected: " + Expected_For_Correct_cred + "\n But got: " + Actual_For_Correct_cred);
+        }
+        System.out.println("====================================================================\n");
+
+
+        System.out.println("====================================================================\n");
+        System.out.println("1. Checking TimeSheet  ");
+        System.out.println("====================================================================\n");
+
+        Actions actionClass = new Actions(driver);
+
+        //Click on Timesheet Menu
+        WebElement Timesheet_Menu = wait7.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@class=\"nav-link nav-calendar nav-time_sheet\"]")));
+        actionClass.moveToElement(Timesheet_Menu).click().build().perform();
+
+        // Now Click on Add New Button
+        Thread.sleep(2000);
+        WebElement Timesheet_Add_New_Button = wait7.until(ExpectedConditions.elementToBeClickable(By.xpath("(//*[text()='Add New'])[1]")));
+        actionClass.moveToElement(Timesheet_Add_New_Button).click().build().perform();
+
+        // Check the Calendar is visible or not
+        WebElement Calendar = wait7.until(ExpectedConditions.elementToBeClickable(By.xpath("//h1[@class=\"m-0\"]")));
+        String Calendar_Text = Calendar.getText();
+        System.out.println(Calendar_Text + " is Visible");
+
+
+
+    }
 
 }
