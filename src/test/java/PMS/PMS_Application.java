@@ -1003,6 +1003,8 @@ public class PMS_Application {
         String consoleOutput = baos.toString(StandardCharsets.UTF_8);
         Allure_Helper_Class.attachConsoleOutput(consoleOutput, "ConsoleOutput");
 
+        // Testing for Git
+
         //Quit Driver
         driver.quit();
 
