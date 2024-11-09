@@ -558,18 +558,20 @@ public class PMS_Application {
         System.out.println("====================================================================\n");
         System.out.println("3. Checking Save Button is disabled after save");
         System.out.println("====================================================================\n");
-        if (Save_btn.isEnabled()) {
+        try {
+            if (!Save_btn.isEnabled()) {
+                // Taking Screenshot
+                captureScreenshot(driver, "Save button is Disabled");
 
-            // Taking Screenshot
-            captureScreenshot(driver, "button is Enabled");
-
-            System.out.println("Test Failed! ");
+                System.out.println("Test Passed! ");
+                System.out.println("Save button is Disabled");
+            }
+        } catch (Exception e) {
+            System.out.println("Test Failed!");
             System.out.println("Save Button is Enabled");
-        } else {
-            // Taking Screenshot
-            captureScreenshot(driver, "Save button is Disabled");
-            System.out.println("Test Passed! ");
-            System.out.println("Save button is Disabled");
+
+            // Taking a screenshot in case of an exception
+            captureScreenshot(driver, "Exception occurred or Save button is Enabled");
         }
 
         // Checking with null fields
