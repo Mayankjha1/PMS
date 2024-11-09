@@ -1081,7 +1081,10 @@ public class PMS_Application {
         String Calendar_Text = Calendar.getText();
         System.out.println(Calendar_Text + " is Visible");
 
- // Testing code
+        // Quit the driver
+        driver.quit();
+
+ // Testing
 
     }
 
