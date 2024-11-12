@@ -1081,10 +1081,108 @@ public class PMS_Application {
         String Calendar_Text = Calendar.getText();
         System.out.println(Calendar_Text + " is Visible");
 
+        // Print the Month and Year
+        WebElement Calendar_Month_and_year = wait7.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@class=\"fc-left\"]")));
+        String Calendar_Month_and_year_Store = Calendar_Month_and_year.getText();
+        System.out.println(Calendar_Month_and_year_Store);
+
+        // Click on the Calendar for adding timesheet
+        Thread.sleep(2000);
+        WebElement Adding_Timesheet = wait7.until(ExpectedConditions.elementToBeClickable(By.xpath("(//td[@class=\"fc-day-top fc-sun fc-past\"]/span)[2]")));
+        actionClass.moveToElement(Adding_Timesheet).click().build().perform();
+
+        // Heading should be Timesheet
+
+        // Actual and Expected Result
+        WebElement Timesheet_Heading = wait7.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@class=\"col-sm-6\"]")));
+        String Timesheet_Heading_Store = Timesheet_Heading.getText();
+
+        String Expected_Timesheet_Heading = "Time Sheet";
+        String Actual_Timesheet_Heading = Timesheet_Heading_Store;
+
+        try {
+            Assert.assertEquals(Actual_Timesheet_Heading, Expected_Timesheet_Heading);
+            System.out.println("Test Passed! ");
+            System.out.println("Heading : " + Actual_Timesheet_Heading);
+        } catch (AssertionError e) {
+            System.out.println("Test Failed! \n Expected: " + Expected_Timesheet_Heading + "\n But got: " + Actual_Timesheet_Heading);
+        }
+
+        System.out.println("====================================================================\n");
+        System.out.println("2. Adding Timesheet  ");
+        System.out.println("====================================================================\n");
+
+        // Selecting all the project and give the values
+        List<WebElement> projects_selection = driver.findElements(By.xpath("//div[@class=\"day-input-container_inner\"]/select"));
+        System.out.println("Size : " + projects_selection.size());
+        for (int i = 0; i < projects_selection.size(); i++) {
+            projects_selection = driver.findElements(By.xpath("//div[@class=\"day-input-container_inner\"]/select"));
+            projects_selection.get(i).click();
+            List<WebElement> Project_options = projects_selection.get(i).findElements(By.tagName("option"));
+            Project_options.get(17).click();
+            actionClass.sendKeys(Keys.ENTER).build().perform();
+
+            // Fill the hours
+            WebElement parentContainer = driver.findElement(By.xpath("(//div[@class='day-input-container_inner'])[" + (i + 1) + "]"));
+            WebElement timesheetInput = parentContainer.findElement(By.tagName("input"));
+            actionClass.moveToElement(timesheetInput).click().sendKeys("9.05").build().perform();
+        }
+
+        // Check the Success Toast Message
+        // Actual and Expected Result
+        WebElement TimeSheet_Toast_Message = wait7.until(ExpectedConditions.elementToBeClickable(By.id("swal2-title")));
+        String TimeSheet_Toast_Message_Store = TimeSheet_Toast_Message.getText();
+
+
+        String Expected_For_TimeSheet_Toast_Message = "Data successfully saved.";
+        String Actual_For_TimeSheet_Toast_Message = TimeSheet_Toast_Message_Store;
+
+        // Taking Screenshot
+       // captureScreenshot(driver, Actual_For_Daily_Status_Toast_Message);
+
+        // Error Handling
+        try {
+            Assert.assertEquals(Actual_For_TimeSheet_Toast_Message, Expected_For_TimeSheet_Toast_Message);
+            System.out.println("Test Passed! ");
+            System.out.println("Toast Message : " + Actual_For_TimeSheet_Toast_Message);
+        } catch (AssertionError e) {
+            System.out.println("Test Failed! \n Expected: " + Expected_For_TimeSheet_Toast_Message + "\n But got: " + Actual_For_TimeSheet_Toast_Message);
+        }
+        System.out.println("====================================================================\n");
+
+
+
+        // Now check the Sum of Total Hours
+        System.out.println("====================================================================\n");
+        System.out.println("3. Total Numbers Sum [9.05 x 7]  ");
+        System.out.println("====================================================================\n");
+        // Actual and Expected Result
+
+        WebElement Total_hours_for_7_Days = wait7.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@class=\"col-3\"]/div")));
+        String Total_hours_for_7_Days_Store = Total_hours_for_7_Days.getText();
+
+        String Expected_For_Total_hours_for_7_Days = "Total Hours: 63.35" ;
+        String Actual_For_Total_hours_for_7_Days = Total_hours_for_7_Days_Store;
+
+        try {
+            Assert.assertEquals(Actual_For_Total_hours_for_7_Days, Expected_For_Total_hours_for_7_Days);
+            System.out.println("Test Passed! ");
+            System.out.println("Sum  : " + Actual_For_Total_hours_for_7_Days);
+        } catch (AssertionError e) {
+            System.out.println("Test Failed! \n Expected: " + Expected_For_Total_hours_for_7_Days + "\n But got: " + Actual_For_Total_hours_for_7_Days);
+        }
+        System.out.println("====================================================================\n");
+
+
         // Quit the driver
         driver.quit();
 
 
     }
 
+
+
+
 }
+
+
