@@ -31,6 +31,10 @@ public class PMS_Application {
 
     // Enter Your Name
     String Name = "";
+
+    // Enter the Project index
+    int Project_Index = 17;
+
     String Exclametry = "!";
 
     @Test(priority = 1)
@@ -271,6 +275,7 @@ public class PMS_Application {
         String consoleOutput = baos.toString(StandardCharsets.UTF_8);
         Allure_Helper_Class.attachConsoleOutput(consoleOutput, "ConsoleOutput");
 
+        //Quit Driver
         driver.quit();
 
     }
@@ -491,7 +496,7 @@ public class PMS_Application {
         List<WebElement> Projects = driver.findElements(By.xpath("//select[@name=\"project_id\"]/option"));
         //System.out.println(Projects.size()-1 + " Projects");
         for (int i = 1; i < Projects.size(); i++) {
-            Projects.get(17).click();
+            Projects.get(Project_Index).click();
             Action_Class.sendKeys(Keys.ENTER).build().perform();
         }
 
@@ -529,6 +534,8 @@ public class PMS_Application {
 
         // Now Save the Daily Status ... Clicking on Save Button
         WebElement Save_btn = wait7.until(ExpectedConditions.elementToBeClickable(By.id("saveButton")));
+        // Scroll to the Save button
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", Save_btn);
         Action_Class.moveToElement(Save_btn).click().build().perform();
 
         // Success Toast Message
@@ -595,7 +602,7 @@ public class PMS_Application {
         List<WebElement> Selecting_Projects = driver.findElements(By.xpath("//select[@name=\"project_id\"]/option"));
         //System.out.println(Projects.size()-1 + " Projects");
         for (int i = 1; i < Selecting_Projects.size(); i++) {
-            Selecting_Projects.get(17).click();
+            Selecting_Projects.get(Project_Index).click();
             Action_Class.sendKeys(Keys.ENTER).build().perform();
         }
 
@@ -610,6 +617,8 @@ public class PMS_Application {
 
         // Now again we have to click on Save button
         Save_btn = wait7.until(ExpectedConditions.elementToBeClickable(By.id("saveButton")));
+        // Scroll to the Save button
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", Save_btn);
         Action_Class.moveToElement(Save_btn).click().build().perform();
 
         // Rest of them are still blank to check the Validation
@@ -646,7 +655,7 @@ public class PMS_Application {
         List<WebElement> Projects2 = driver.findElements(By.xpath("//select[@name=\"project_id\"]/option"));
         //System.out.println(Projects.size()-1 + " Projects");
         for (int i = 1; i < Projects2.size(); i++) {
-            Projects2.get(17).click();
+            Projects2.get(Project_Index).click();
             Action_Class.sendKeys(Keys.ENTER).build().perform();
         }
 
@@ -691,6 +700,8 @@ public class PMS_Application {
 
         // Now Save the Daily Status ... Clicking on Save Button
         Save_btn = wait7.until(ExpectedConditions.elementToBeClickable(By.id("saveButton")));
+        // Scroll to the Save button
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", Save_btn);
         Action_Class.moveToElement(Save_btn).click().build().perform();
 
         // Success Toast Message
@@ -862,6 +873,8 @@ public class PMS_Application {
 
         // Click on Save and get Toast Message
         Save_btn = wait7.until(ExpectedConditions.elementToBeClickable(By.id("saveButton")));
+        // Scroll to the Save button
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", Save_btn);
         Action_Class.moveToElement(Save_btn).click().build().perform();
 
         // Success Toast Message
@@ -1014,6 +1027,11 @@ public class PMS_Application {
     @Test(priority = 4)
     public void TimeSheet() throws InterruptedException {
 
+        // This is for Print Outputs`
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        PrintStream originalOut = System.out;
+        System.setOut(new PrintStream(baos));
+
         // To Disable Notification
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--disable-notifications");
@@ -1055,8 +1073,12 @@ public class PMS_Application {
             Assert.assertEquals(Actual_For_Correct_cred, Expected_For_Correct_cred);
             System.out.println("Test Passed! ");
             System.out.println("Welcome Message : " + Actual_For_Correct_cred);
+            // Taking Screenshot
+            captureScreenshot(driver, Actual_For_Correct_cred);
         } catch (AssertionError e) {
             System.out.println("Test Failed! \n Expected: " + Expected_For_Correct_cred + "\n But got: " + Actual_For_Correct_cred);
+            // Taking Screenshot
+            captureScreenshot(driver, Actual_For_Correct_cred);
         }
         System.out.println("====================================================================\n");
 
@@ -1088,6 +1110,8 @@ public class PMS_Application {
 
         // Click on the Calendar for adding timesheet
         Thread.sleep(2000);
+
+        //clicking on Date
         WebElement Adding_Timesheet = wait7.until(ExpectedConditions.elementToBeClickable(By.xpath("(//td[@class=\"fc-day-top fc-sun fc-past\"]/span)[2]")));
         actionClass.moveToElement(Adding_Timesheet).click().build().perform();
 
@@ -1100,12 +1124,19 @@ public class PMS_Application {
         String Expected_Timesheet_Heading = "Time Sheet";
         String Actual_Timesheet_Heading = Timesheet_Heading_Store;
 
+        // Taking Screenshot
+        captureScreenshot(driver, Actual_Timesheet_Heading);
+
         try {
             Assert.assertEquals(Actual_Timesheet_Heading, Expected_Timesheet_Heading);
             System.out.println("Test Passed! ");
             System.out.println("Heading : " + Actual_Timesheet_Heading);
+            // Taking Screenshot
+            captureScreenshot(driver, Actual_Timesheet_Heading);
         } catch (AssertionError e) {
             System.out.println("Test Failed! \n Expected: " + Expected_Timesheet_Heading + "\n But got: " + Actual_Timesheet_Heading);
+            // Taking Screenshot
+            captureScreenshot(driver, Actual_Timesheet_Heading);
         }
 
         System.out.println("====================================================================\n");
@@ -1119,8 +1150,9 @@ public class PMS_Application {
             projects_selection = driver.findElements(By.xpath("//div[@class=\"day-input-container_inner\"]/select"));
             projects_selection.get(i).click();
             List<WebElement> Project_options = projects_selection.get(i).findElements(By.tagName("option"));
-            Project_options.get(17).click();
-            actionClass.sendKeys(Keys.ENTER).build().perform();
+            Project_options.get(Project_Index).click();
+
+            // actionClass.sendKeys(Keys.ENTER).build().perform();
 
             // Fill the hours
             WebElement parentContainer = driver.findElement(By.xpath("(//div[@class='day-input-container_inner'])[" + (i + 1) + "]"));
@@ -1128,28 +1160,37 @@ public class PMS_Application {
             actionClass.moveToElement(timesheetInput).click().sendKeys("9.05").build().perform();
         }
 
+        // Taking Screenshot
+        captureScreenshot(driver, "Timesheet Page");
+
+        // Click on Submit button
+        WebElement Submit_button = wait7.until(ExpectedConditions.elementToBeClickable(By.id("submit")));
+        actionClass.moveToElement(Submit_button).click().build().perform();
+
         // Check the Success Toast Message
         // Actual and Expected Result
         WebElement TimeSheet_Toast_Message = wait7.until(ExpectedConditions.elementToBeClickable(By.id("swal2-title")));
         String TimeSheet_Toast_Message_Store = TimeSheet_Toast_Message.getText();
 
-
         String Expected_For_TimeSheet_Toast_Message = "Data successfully saved.";
         String Actual_For_TimeSheet_Toast_Message = TimeSheet_Toast_Message_Store;
 
         // Taking Screenshot
-       // captureScreenshot(driver, Actual_For_Daily_Status_Toast_Message);
+        captureScreenshot(driver, Actual_For_TimeSheet_Toast_Message);
 
         // Error Handling
         try {
             Assert.assertEquals(Actual_For_TimeSheet_Toast_Message, Expected_For_TimeSheet_Toast_Message);
             System.out.println("Test Passed! ");
             System.out.println("Toast Message : " + Actual_For_TimeSheet_Toast_Message);
+            // Taking Screenshot
+            captureScreenshot(driver, Actual_For_TimeSheet_Toast_Message);
         } catch (AssertionError e) {
             System.out.println("Test Failed! \n Expected: " + Expected_For_TimeSheet_Toast_Message + "\n But got: " + Actual_For_TimeSheet_Toast_Message);
+            // Taking Screenshot
+            captureScreenshot(driver, Actual_For_TimeSheet_Toast_Message);
         }
         System.out.println("====================================================================\n");
-
 
 
         // Now check the Sum of Total Hours
@@ -1158,31 +1199,314 @@ public class PMS_Application {
         System.out.println("====================================================================\n");
         // Actual and Expected Result
 
+        // again go back and click on first input [Monday] and then enter
+        // Navigate back to the previous page
+        Thread.sleep(3000);
+        driver.navigate().back();
+
+        // Now Click on Monday Column then enter
+        WebElement Monday_input_Click = wait7.until(ExpectedConditions.elementToBeClickable(By.id("Monday")));
+        actionClass.moveToElement(Monday_input_Click).click().sendKeys(Keys.ENTER).build().perform();
+
+
         WebElement Total_hours_for_7_Days = wait7.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@class=\"col-3\"]/div")));
         String Total_hours_for_7_Days_Store = Total_hours_for_7_Days.getText();
 
-        String Expected_For_Total_hours_for_7_Days = "Total Hours: 63.35" ;
+        String Expected_For_Total_hours_for_7_Days = "Total Hours: 63.35";
         String Actual_For_Total_hours_for_7_Days = Total_hours_for_7_Days_Store;
+
+        // Taking Screenshot
+        captureScreenshot(driver, Actual_For_Total_hours_for_7_Days);
 
         try {
             Assert.assertEquals(Actual_For_Total_hours_for_7_Days, Expected_For_Total_hours_for_7_Days);
             System.out.println("Test Passed! ");
             System.out.println("Sum  : " + Actual_For_Total_hours_for_7_Days);
+            // Taking Screenshot
+            captureScreenshot(driver, Actual_For_Total_hours_for_7_Days);
         } catch (AssertionError e) {
             System.out.println("Test Failed! \n Expected: " + Expected_For_Total_hours_for_7_Days + "\n But got: " + Actual_For_Total_hours_for_7_Days);
+            // Taking Screenshot
+            captureScreenshot(driver, Actual_For_Total_hours_for_7_Days);
         }
         System.out.println("====================================================================\n");
 
+        System.out.println("====================================================================\n");
+        System.out.println("4. Accessing Timesheet before 21 Days  ");
+        System.out.println("====================================================================\n");
+
+        // Now Again Click on Add New to Navigate to the Calendar Part for Validation
+        Thread.sleep(2000);
+        Timesheet_Add_New_Button = wait7.until(ExpectedConditions.elementToBeClickable(By.xpath("(//*[text()='Add New'])[1]")));
+        actionClass.moveToElement(Timesheet_Add_New_Button).click().build().perform();
+
+        // Now click on the Left arrow for 21 days check
+        Thread.sleep(1000);
+        WebElement Timesheet_Left_button = wait7.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[@class=\"fc-icon fc-icon-left-single-arrow\"]")));
+        actionClass.moveToElement(Timesheet_Left_button).click().build().perform();
+
+        // Now Print the Current Month and Date after click on Left arrow
+        Calendar_Month_and_year = wait7.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@class=\"fc-left\"]")));
+        String Calendar_Text_for_Previous_Month = Calendar_Month_and_year.getText();
+        System.out.println(Calendar_Text_for_Previous_Month);
+
+
+        try {
+            // Check if Hours_Visible is present and visible
+            List<WebElement> hoursElements = driver.findElements(By.xpath("(//div[@class=\"fc-content\"])[1]"));
+
+            // Taking Screenshot
+            captureScreenshot(driver, "Clendar Data");
+
+            if (!hoursElements.isEmpty()) {
+                WebElement Hours_Visible = hoursElements.get(0);
+
+                // Wait until it's clickable before interacting
+                wait7.until(ExpectedConditions.elementToBeClickable(Hours_Visible));
+                actionClass.moveToElement(Hours_Visible).click().build().perform();
+
+                // Get and compare Actual and Expected Result
+                WebElement Warning_Toast_Message = wait7.until(ExpectedConditions.visibilityOfElementLocated(By.id("swal2-title")));
+                String Warning_Toast_Message_Store = Warning_Toast_Message.getText();
+
+                String Expected_Warning_Toast_Message = "This timesheet is not editable. The end date is more than two weeks ago.";
+                String Actual_Warning_Toast_Message = Warning_Toast_Message_Store;
+
+                try {
+                    Assert.assertEquals(Actual_Warning_Toast_Message, Expected_Warning_Toast_Message);
+                    System.out.println("Test Passed!");
+                    System.out.println("Warning Message: " + Actual_Warning_Toast_Message);
+                    // Taking Screenshot
+                    captureScreenshot(driver, Actual_Warning_Toast_Message);
+                } catch (AssertionError e) {
+                    System.out.println("Test Failed! \nExpected: " + Expected_Warning_Toast_Message + "\nBut got: " + Actual_Warning_Toast_Message);
+                    // Taking Screenshot
+                    captureScreenshot(driver, Actual_Warning_Toast_Message);
+                }
+            } else {
+                // If Hours_Visible is not found, handle alternative actions
+                System.out.println("Data is not there. Clicking on Date Field...");
+
+                // Click on Date if no Hours data is available
+                WebElement Date_Field_Click = wait7.until(ExpectedConditions.elementToBeClickable(By.xpath("(//td[@class=\"fc-day-top fc-sun fc-past\"]/span)[2]")));
+                actionClass.moveToElement(Date_Field_Click).click().build().perform();
+
+                try {
+                    // Try to find the "Time Sheet" element and check if it's displayed
+                    if (driver.findElement(By.xpath("//*[text()='Time Sheet']")).isDisplayed()) {
+                        System.out.println("Clicked and Timesheet is Visible \nTest Case Passed");
+                        // Taking Screenshot
+                        captureScreenshot(driver, "Pass !!! Clicked and Timesheet is Visible");
+                    }
+                } catch (NoSuchElementException e) {
+                    // This occurs when the element is not found
+                    System.out.println("Clicked and Nothing Happened \nTest Case Failed !!!");
+                    // Taking Screenshot
+                    captureScreenshot(driver, "Clicked and Nothing Happened Failed !!!");
+                } catch (ElementNotInteractableException e) {
+                    // This occurs when the element is found but cannot be interacted with
+                    System.out.println("Clicked and Timesheet is not interactable \nTest Case Failed !!!");
+                    // Taking Screenshot
+                    captureScreenshot(driver, "Clicked and Timesheet is not interactable Failed !!!");
+                } catch (TimeoutException e) {
+                    // This occurs if you're waiting for an element but it times out
+                    System.out.println("Clicked and Timesheet did not appear in time \nTest Case Failed !!!");
+                    // Taking Screenshot
+                    captureScreenshot(driver, "Clicked and Timesheet did not appear in time [Failed !!!]");
+                } catch (Exception e) {
+                    // General exception catch for unexpected errors
+                    System.out.println("An unexpected error occurred: " + e.getMessage());
+                }
+
+            }
+            System.out.println("====================================================================\n");
+
+        } catch (Exception e) {
+            System.out.println("Exception occurred: " + e.getMessage());
+        }
+
+        System.out.println("====================================================================\n");
+        System.out.println("5. Click multiple times on the previous blank, and then click on the current date");
+        System.out.println("====================================================================\n");
+
+// Refresh the page
+        driver.navigate().refresh();
+
+// Click on left Arrow button to go to previous month
+        Thread.sleep(1000);
+        Timesheet_Left_button = wait7.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[@class=\"fc-icon fc-icon-left-single-arrow\"]")));
+        actionClass.moveToElement(Timesheet_Left_button).click().click().build().perform();
+
+// Wait and capture the updated month after navigation
+        Thread.sleep(1000);
+        String Calendar_Text_for_Previous_Month_Print = driver.findElement(By.xpath("//div[@class=\"fc-left\"]/h2")).getText();
+        System.out.println("Previous Month : " + Calendar_Text_for_Previous_Month_Print);
+
+// Clicking Multiple Times on Blank date field past 3 weeks
+        Thread.sleep(1000);
+        WebElement Date_Field_Click = wait7.until(ExpectedConditions.elementToBeClickable(By.xpath("(//td[@class=\"fc-day-top fc-sun fc-past\"]/span)[2]")));
+        actionClass.moveToElement(Date_Field_Click).click().click().build().perform();
+
+        try {
+            if (driver.findElement(By.xpath("//*[text()='Time Sheet']")).isDisplayed()) {
+                System.out.println("Clicked and Timesheet is Visible \nTest Case Failed");
+                captureScreenshot(driver, "Failed !!!! Clicked and Timesheet is Visible");
+            }
+        } catch (NoSuchElementException e) {
+            System.out.println("Clicked and Nothing Happened \nTest Case Passed");
+            captureScreenshot(driver, "Clicked and Nothing Happened Test Case Passed !!!!");
+        }
+
+// Now click on the Right arrow to navigate to the current month
+        Thread.sleep(1000);
+        WebElement Timesheet_Right_button = wait7.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[@class = \"fc-icon fc-icon-right-single-arrow\"]")));
+        actionClass.moveToElement(Timesheet_Right_button).click().click().build().perform();
+
+// Capture the updated month after clicking the right arrow
+        Thread.sleep(1000);
+        String Calendar_Month_and_year_Store_Print = driver.findElement(By.xpath("//div[@class=\"fc-left\"]/h2")).getText();
+        System.out.println("Current Month : " + Calendar_Month_and_year_Store_Print);
+
+// Verify the Current date is opening or not
+        Adding_Timesheet = wait7.until(ExpectedConditions.elementToBeClickable(By.xpath("(//td[@class=\"fc-day-top fc-sun fc-past\"]/span)[2]")));
+        actionClass.moveToElement(Adding_Timesheet).click().build().perform();
+
+        try {
+            if (driver.findElement(By.xpath("//*[text()='Time Sheet']")).isDisplayed()) {
+                System.out.println("Clicked and Timesheet is Visible \nTest Case Passed");
+                captureScreenshot(driver, "Pass !!! Clicked and Timesheet is Visible");
+            }
+        } catch (NoSuchElementException e) {
+            System.out.println("Clicked and Nothing Happened \nTest Case Failed");
+            captureScreenshot(driver, "Failed !!! Clicked and Nothing Happened");
+        } catch (ElementNotInteractableException e) {
+            System.out.println("Clicked and Timesheet is not interactable \nTest Case Failed");
+            captureScreenshot(driver, "Failed !!! Clicked and Timesheet is not interactable");
+        } catch (TimeoutException e) {
+            System.out.println("Clicked and Timesheet did not appear in time \nTest Case Failed");
+            captureScreenshot(driver, "Failed !!! Clicked and Timesheet did not appear in time");
+        } catch (Exception e) {
+            System.out.println("An unexpected error occurred: " + e.getMessage());
+        }
+
+
+        System.out.println("====================================================================\n");
+        System.out.println("6. Checking with the Next week  ");
+        System.out.println("====================================================================\n");
+
+        // Navigate back to the previous page
+        driver.navigate().back();
+
+        // Click on Right Arrow
+        Thread.sleep(3000);
+        Timesheet_Right_button = wait7.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[@class = \"fc-icon fc-icon-right-single-arrow\"]")));
+        actionClass.moveToElement(Timesheet_Right_button).click().build().perform();
+
+        // Click on Any date
+        Adding_Timesheet = wait7.until(ExpectedConditions.elementToBeClickable(By.xpath(" (//td[@class=\"fc-day-top fc-sun fc-future\"]/span)[2]")));
+        actionClass.moveToElement(Adding_Timesheet).click().build().perform();
+
+
+        // Verify Now
+        try {
+            // Try to find the "Time Sheet" element and check if it's displayed
+            if (driver.findElement(By.xpath("//*[text()='Time Sheet']")).isDisplayed()) {
+                System.out.println("Clicked and Timesheet is Visible \nTest Case Failed");
+                // Taking Screenshot
+                captureScreenshot(driver, "Failed !!!! Clicked and Timesheet is Visible");
+            }
+        } catch (NoSuchElementException e) {
+            // This occurs when the element is not found
+            System.out.println("Clicked and Nothing Happened \nTest Case Passed");
+            // Taking Screenshot
+            captureScreenshot(driver, "Clicked and Nothing Happened");
+        } catch (ElementNotInteractableException e) {
+            // This occurs when the element is found but cannot be interacted with
+            System.out.println("Clicked and Timesheet is not interactable \nTest Case Passed");
+            // Taking Screenshot
+            captureScreenshot(driver, "Clicked and Timesheet is not interactable");
+        } catch (TimeoutException e) {
+            // This occurs if you're waiting for an element but it times out
+            System.out.println("Clicked and Timesheet did not appear in time \nTest Case Passed");
+            // Taking Screenshot
+            captureScreenshot(driver, "Clicked and Timesheet did not appear in time");
+        } catch (Exception e) {
+            // General exception catch for unexpected errors
+            System.out.println("An unexpected error occurred: " + e.getMessage());
+        }
+
+        System.out.println("====================================================================\n");
+        System.out.println("7. Checking Edit button ");
+        System.out.println("====================================================================\n");
+
+        //click on View Timesheet
+        Thread.sleep(2000);
+        WebElement Timesheet_View_Button = wait7.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[text()='View']")));
+        actionClass.moveToElement(Timesheet_View_Button).click().build().perform();
+
+        // Check the Timesheet view is visible or not
+        WebElement TimeSheet_View = wait7.until(ExpectedConditions.elementToBeClickable(By.xpath("//h1[@class=\"m-0\"]")));
+        String TimeSheet_View_Store = TimeSheet_View.getText();
+        System.out.println(TimeSheet_View_Store + " is Visible");
+
+        //Click on Action button
+        WebElement Action_button = wait7.until(ExpectedConditions.elementToBeClickable(By.xpath("(//button[@type=\"button\"])[1]")));
+        actionClass.moveToElement(Action_button).click().build().perform();
+
+        // Now click on edit button
+        WebElement Edit_button = wait7.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@class=\"dropdown-menu show\"]/a[text()='Edit']")));
+        actionClass.moveToElement(Edit_button).click().build().perform();
+
+        // Now Click on Monday Column then enter the Number and Save
+        WebElement Monday_input = wait7.until(ExpectedConditions.elementToBeClickable(By.id("Monday")));
+        Monday_input.clear();
+        actionClass.moveToElement(Monday_input).click().sendKeys("11").build().perform();
+
+        //Click on Submit button
+        WebElement Submit_button_after_timesheet = wait7.until(ExpectedConditions.elementToBeClickable(By.id("submit")));
+        actionClass.moveToElement(Submit_button_after_timesheet).click().build().perform();
+        // Taking Screenshot
+        captureScreenshot(driver, "Submit button Clicked");
+
+        // Verify Toast Message
+        // Actual and Expected Result
+        WebElement Edit_After_Save_Toast_Message = wait7.until(ExpectedConditions.elementToBeClickable(By.id("swal2-title")));
+        String Edit_After_Save_Toast_Message_Store = Edit_After_Save_Toast_Message.getText();
+
+
+        String Expected_For_Edit_After_Save = "Data successfully saved.";
+        String Actual_For_Edit_After_Save = Edit_After_Save_Toast_Message_Store;
+
+        // Taking Screenshot
+        captureScreenshot(driver, Actual_For_Edit_After_Save);
+
+        // Error Handling
+        try {
+            Assert.assertEquals(Actual_For_Edit_After_Save, Expected_For_Edit_After_Save);
+            System.out.println("Test Passed! ");
+            System.out.println("Toast Message : " + Actual_For_Edit_After_Save);
+            // Taking Screenshot
+            captureScreenshot(driver, Actual_For_Edit_After_Save);
+        } catch (AssertionError e) {
+            System.out.println("Test Failed! \n Expected: " + Expected_For_Edit_After_Save + "\n But got: " + Actual_For_Edit_After_Save);
+            // Taking Screenshot
+            captureScreenshot(driver, Actual_For_Edit_After_Save);
+        }
+        System.out.println("====================================================================\n");
+
+        // Allure Report Console Logs Attachment
+        Allure_Helper_Class.attachConsoleLogs(driver, "ConsoleLogs");
+
+        // This is for Console output in allure reports
+        System.setOut(originalOut);
+        String consoleOutput = baos.toString(StandardCharsets.UTF_8);
+        Allure_Helper_Class.attachConsoleOutput(consoleOutput, "ConsoleOutput");
 
         // Quit the driver
         driver.quit();
 
-        // Hey Ashwini mali
-
 
     }
-
-
 
 
 }
